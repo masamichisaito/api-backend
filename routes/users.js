@@ -8,9 +8,14 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { name, email } = req.body;
-  const user = await User.create({ name, email });
-  res.status(201).json(user);
+  try {
+    const { name, email } = req.body;
+    const user = await User.create({ name, email });
+    res.status(201).json(user);
+  } catch (err) {
+    console.error('❌ ユーザー登録失敗:', err);
+    res.status(500).json({ error: '登録に失敗しました' });
+  }
 });
 
 module.exports = router;
